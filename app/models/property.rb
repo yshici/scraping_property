@@ -21,9 +21,11 @@ class Property < ApplicationRecord
       floor = el.at('.list-info li:first-child').text.strip
       area = el.at('.list-info li:nth-child(2)').text.strip.gsub(/\s+/, ' ')
       stair = el.at('.list-info li:nth-child(3)').text.strip.gsub(/\s+/, ' ')
+      deposit = el.at('.list-info li:nth-child(6)').text.strip.gsub(/\s+/, ' ')
+      management = el.at('.list-info li:nth-child(7)').text.strip.gsub(/\s+/, ' ')
       url = "https://www.fudousan.or.jp" + el.at('.prop-title-link').get_attribute(:href)
 
-      record = self.find_or_initialize_by(title: title, access: access, price: price, floor: floor, area: area, stair: stair, url: url)
+      record = self.find_or_initialize_by(title: title, access: access, price: price, floor: floor, area: area, stair: stair, deposit: deposit, management: management, url: url)
       if record.new_record?
         record.save!
         new_properties << record
@@ -48,9 +50,11 @@ class Property < ApplicationRecord
       floor = el.at('.list-info li:first-child').text.strip
       area = el.at('.list-info li:nth-child(2)').text.strip.gsub(/\s+/, ' ')
       stair = el.at('.list-info li:nth-child(3)').text.strip.gsub(/\s+/, ' ')
+      deposit = el.at('.list-info li:nth-child(6)').text.strip.gsub(/\s+/, ' ')
+      management = el.at('.list-info li:nth-child(7)').text.strip.gsub(/\s+/, ' ')
       url = "https://www.fudousan.or.jp" + el.at('.prop-title-link').get_attribute(:href)
 
-      record = self.find_or_initialize_by(title: title, access: access, price: price, floor: floor, area: area, stair: stair, url: url)
+      record = self.find_or_initialize_by(title: title, access: access, price: price, floor: floor, area: area, stair: stair, deposit: deposit, management: management, url: url)
       if record.new_record?
         record.save!
         new_properties << record

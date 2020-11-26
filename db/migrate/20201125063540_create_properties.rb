@@ -7,6 +7,8 @@ class CreateProperties < ActiveRecord::Migration[6.0]
       t.string :floor, null: false
       t.string :area, null: false
       t.string :stair, null: false
+      t.string :deposit, null: false
+      t.string :management, null: false
       t.string :url, null: false
 
       t.timestamps

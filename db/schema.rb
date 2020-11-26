@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2020_11_25_063540) do
     t.string "floor", null: false
     t.string "area", null: false
     t.string "stair", null: false
+    t.string "deposit", null: false
+    t.string "management", null: false
     t.string "url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
