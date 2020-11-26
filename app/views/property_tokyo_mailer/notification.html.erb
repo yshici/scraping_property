@@ -136,8 +136,11 @@
                                   <tbody>
                                     <tr>
                                       <td class='full-width-mobile' style='width:270px;'>
-                                        <%# <img alt='Descriptive Alt Text' height='auto' src= style='border:none;display:block;font-size:13px;height:auto;outline:none;text-decoration:none;width:100%;' width='270' /> %>
-                                        <%= image_tag property.image, height: 'auto', width: '270', style: 'border:none;display:block;font-size:13px;height:auto;outline:none;text-decoration:none;width:100%;' %>
+                                        <% if property.image.attached? %>
+                                          <%= image_tag property.image, height: 'auto', width: '270', style: 'border:none;display:block;font-size:13px;height:auto;outline:none;text-decoration:none;width:100%;' %>
+                                        <% else %>
+                                          <%= image_tag '/unnamed.png', height: 'auto', width: '270', style: 'border:none;display:block;font-size:13px;height:auto;outline:none;text-decoration:none;width:100%;' %>
+                                        <% end %>
                                       </td>
                                     </tr>
                                   </tbody>
