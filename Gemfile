@@ -31,6 +31,7 @@ gem 'mechanize'
 gem 'pry-rails'
 gem 'pry-byebug'
 gem 'hirb'
+gem 'mini_magick'
 
 group :development, :test do
   # Use mysql as the database for Active Record

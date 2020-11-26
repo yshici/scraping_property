@@ -136,7 +136,8 @@
                                   <tbody>
                                     <tr>
                                       <td class='full-width-mobile' style='width:270px;'>
-                                        <img alt='Descriptive Alt Text' height='auto' src='https://assets.opensourceemails.com/imgs/oxygen/9wRy50HQTg2CTyZA5Ozi_item_images_16.jpg' style='border:none;display:block;font-size:13px;height:auto;outline:none;text-decoration:none;width:100%;' width='270' />
+                                        <%# <img alt='Descriptive Alt Text' height='auto' src= style='border:none;display:block;font-size:13px;height:auto;outline:none;text-decoration:none;width:100%;' width='270' /> %>
+                                        <%= image_tag property.image, height: 'auto', width: '270', style: 'border:none;display:block;font-size:13px;height:auto;outline:none;text-decoration:none;width:100%;' %>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -168,7 +169,9 @@
                             <tr>
                               <td align='left' style='font-size:0px;padding:0px 15px 10px 15px;word-break:break-word;'>
                                 <div style='color:#777777;font-family:Oxygen, Helvetica neue, sans-serif;font-size:14px;line-height:23px;text-align:left;'>
-                                  <%= property.access %><br>
+                                  <% property.access.split(/\R/).each do |x| %>
+                                    <%= x %><br>
+                                  <% end %>
                                   <%= property.floor %><br>
                                   <%= property.area %><br>
                                   <%= property.stair %><br>
