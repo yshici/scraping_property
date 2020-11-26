@@ -44,11 +44,11 @@ test:
 #
 # You can use this database configuration with:
 #
-#   production:
-#     url: <%= ENV['DATABASE_URL'] %>
-#
 production:
-  <<: *default
-  database: scraping_property_production
-  username: scraping_property
-  password: <%= ENV['SCRAPING_PROPERTY_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+#
+# production:
+#   <<: *default
+#   database: scraping_property_production
+#   username: scraping_property
+#   password: <%= ENV['SCRAPING_PROPERTY_DATABASE_PASSWORD'] %>
