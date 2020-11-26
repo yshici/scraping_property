@@ -33,4 +33,31 @@ class Property < ApplicationRecord
     end
     PropertyTokyoMailer.notification(new_properties).deliver_now if new_properties.present?
   end
+
+  def self.fetch_kanagawa_property
+    url = 'https://www.fudousan.or.jp/property/rent/14/area/list?m_adr%5B%5D=14101&m_adr%5B%5D=14102&m_adr%5B%5D=14103&m_adr%5B%5D=14104&m_adr%5B%5D=14105&m_adr%5B%5D=14106&m_adr%5B%5D=14107&m_adr%5B%5D=14108&m_adr%5B%5D=14109&m_adr%5B%5D=14110&m_adr%5B%5D=14111&m_adr%5B%5D=14112&m_adr%5B%5D=14113&m_adr%5B%5D=14114&m_adr%5B%5D=14115&m_adr%5B%5D=14116&m_adr%5B%5D=14117&m_adr%5B%5D=14118&m_adr%5B%5D=14131&m_adr%5B%5D=14132&m_adr%5B%5D=14133&m_adr%5B%5D=14134&m_adr%5B%5D=14135&m_adr%5B%5D=14136&m_adr%5B%5D=14137&ptm%5B%5D=0303&price_r_from=&price_r_to=130000&keyword=&eki_walk=10&bus_walk=&exclusive_area_from=&exclusive_area_to=&exclusive_area_from=&exclusive_area_to=&floor_plan%5B%5D=2XXSLDK&floor_plan%5B%5D=3XXXXSK&floor_plan%5B%5D=3XXXSDK&floor_plan%5B%5D=3XXSLDK&floor_plan%5B%5D=4XXXXSK&floor_plan%5B%5D=4XXXSDK&floor_plan%5B%5D=4ZZZZZZ&built=10'
+
+    agent = Mechanize.new
+    page = agent.get(url)
+
+    new_properties = []
+    page.search('.list-group-item').each do |el|
+      title = el.at('span.prop-title-link:first-child').text + el.at('span.prop-title-link:nth-child(2)').text.strip
+      access = el.at('.access').text.strip
+      price = el.at('.price strong').text
+      floor = el.at('.list-info li:first-child').text.strip
+      area = el.at('.list-info li:nth-child(2)').text.strip.gsub(/\s+/, ' ')
+      stair = el.at('.list-info li:nth-child(3)').text.strip.gsub(/\s+/, ' ')
+      url = "https://www.fudousan.or.jp" + el.at('.prop-title-link').get_attribute(:href)
+
+      record = self.find_or_initialize_by(title: title, access: access, price: price, floor: floor, area: area, stair: stair, url: url)
+      if record.new_record?
+        record.save!
+        new_properties << record
+      else
+        logger.info "[INFO] Already saved."
+      end
+    end
+    PropertyKanagawaMailer.notification(new_properties).deliver_now if new_properties.present?
+  end
 end
