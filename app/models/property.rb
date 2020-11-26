@@ -13,6 +13,7 @@ class Property < ApplicationRecord
     agent = Mechanize.new
     page = agent.get(url)
 
+    new_properties = []
     page.search('.list-group-item').each do |el|
       title = el.at('span.prop-title-link:first-child').text + el.at('span.prop-title-link:nth-child(2)').text.strip
       access = el.at('.access').text.strip
@@ -23,7 +24,13 @@ class Property < ApplicationRecord
       url = "https://www.fudousan.or.jp" + el.at('.prop-title-link').get_attribute(:href)
 
       record = self.find_or_initialize_by(title: title, access: access, price: price, floor: floor, area: area, stair: stair, url: url)
-      record.save!
+      if record.new_record?
+        record.save!
+        new_properties << record
+      else
+        logger.info "[INFO] Already saved."
+      end
     end
+    PropertyTokyoMailer.notification(new_properties).deliver_now if new_properties.present?
   end
 end
